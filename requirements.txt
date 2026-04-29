@@ -1,0 +1,11 @@
+Flask
+Flask-Cors
+mysql-connector-python
+python-dotenv
+Werkzeug
+langchain
+streamlit
+PyJWT
+flask-mail
+pymongo==4.7.2
+dnspython
