@@ -16,8 +16,6 @@ db = client[DB_NAME]
 
 # Collections
 users = db["users"]
-chat_sessions = db["chat_sessions"]
-chat_messages = db["chat_messages"]
 
 def get_db():
 
