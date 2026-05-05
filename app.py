@@ -2,7 +2,9 @@ from flask import Flask
 from flask_cors import CORS
 from flask_mail import Mail
 from config import JWT_SECRET
+from dotenv import load_dotenv
 
+load_dotenv()
 
 
 app = Flask(__name__)
@@ -27,9 +29,14 @@ CORS(app,
 # Register blueprints
 from routes.auth import auth_bp
 from routes.profile import profile_bp
+from routes.forgot_password import forgot_bp
+from routes.crop_calender import crop_bp
+
 
 app.register_blueprint(auth_bp, url_prefix="/")
 app.register_blueprint(profile_bp, url_prefix="/")
+app.register_blueprint(forgot_bp, url_prefix="/")
+app.register_blueprint(crop_bp, url_prefix="")
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
