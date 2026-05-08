@@ -31,12 +31,13 @@ from routes.auth import auth_bp
 from routes.profile import profile_bp
 from routes.forgot_password import forgot_bp
 from routes.crop_calender import crop_bp
-
+from routes.news import news_bp
 
 app.register_blueprint(auth_bp, url_prefix="/")
 app.register_blueprint(profile_bp, url_prefix="/")
 app.register_blueprint(forgot_bp, url_prefix="/")
 app.register_blueprint(crop_bp, url_prefix="")
+app.register_blueprint(news_bp,    url_prefix="")
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
