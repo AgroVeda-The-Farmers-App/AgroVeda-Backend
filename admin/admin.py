@@ -40,29 +40,29 @@ def admin_login():
 
     if not email or not password:
         return jsonify({"error": "Email and password are required"}), 400
+    
+    ADMIN_EMAIL = "admin@agroveda.com"
+    ADMIN_PASSWORD = "admin@12345"
 
-    user = users.find_one({"email": email, "is_admin": True})
-    if not user:
-        return jsonify({"error": "Invalid credentials or not an admin"}), 401
-
-    if not check_password_hash(user["password_hash"], password):
-        return jsonify({"error": "Invalid credentials"}), 401
+    
+    if email != ADMIN_EMAIL or password != ADMIN_PASSWORD:
+        return jsonify({"error": "Invalid admin credentials"}), 401
 
     token = jwt.encode({
-        "id":        str(user["_id"]),
-        "email":     email,
-        "full_name": user["full_name"],
-        "is_admin":  True,
-        "exp":       datetime.now(timezone.utc) + timedelta(hours=12),
+        "id": "admin",
+        "email": email,
+        "full_name": "Agroveda Admin",
+        "is_admin": True,
+        "exp": datetime.now(timezone.utc) + timedelta(hours=12),
     }, JWT_SECRET, algorithm="HS256")
 
     return jsonify({
         "message": "Admin login successful",
-        "token":   token,
+        "token": token,
         "admin": {
-            "id":        str(user["_id"]),
-            "full_name": user["full_name"],
-            "email":     user["email"],
+            "id": "admin",
+            "full_name": "Agroveda Admin",
+            "email": "admin@agroveda.com"
         }
     }), 200
 
