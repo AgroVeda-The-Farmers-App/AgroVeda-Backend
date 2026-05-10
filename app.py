@@ -32,6 +32,10 @@ from routes.profile import profile_bp
 from routes.forgot_password import forgot_bp
 from routes.crop_calender import crop_bp
 from routes.news import news_bp
+from admin.admin import admin_bp
+
+
+app.register_blueprint(admin_bp, url_prefix="")
 
 app.register_blueprint(auth_bp, url_prefix="/")
 app.register_blueprint(profile_bp, url_prefix="/")
