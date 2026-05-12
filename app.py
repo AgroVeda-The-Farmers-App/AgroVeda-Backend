@@ -34,6 +34,8 @@ from routes.forgot_password import forgot_bp
 from routes.crop_calender import crop_bp
 from routes.news import news_bp
 from admin.admin import admin_bp
+from routes.yield_predictor import yield_bp
+
 
 
 app.register_blueprint(admin_bp, url_prefix="")
@@ -43,6 +45,7 @@ app.register_blueprint(profile_bp, url_prefix="/")
 app.register_blueprint(forgot_bp, url_prefix="/")
 app.register_blueprint(crop_bp, url_prefix="")
 app.register_blueprint(news_bp,    url_prefix="")
+app.register_blueprint(yield_bp, url_prefix="")
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
