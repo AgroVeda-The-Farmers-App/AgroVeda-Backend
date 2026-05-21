@@ -7,6 +7,10 @@ from db import users
 from config import JWT_SECRET
 from middleware.requireauth import require_auth
 from functools import wraps
+from db import support_tickets
+
+
+
 
 admin_bp = Blueprint("admin", __name__)
 
@@ -227,3 +231,89 @@ def delete_user(user_id):
     if result.deleted_count == 0:
         return jsonify({"error": "User not found"}), 404
     return jsonify({"message": "User deleted successfully"}), 200
+
+
+
+
+# ==========================================
+# CREATE SUPPORT TICKET
+# ==========================================
+@admin_bp.route("/support-tickets", methods=["POST"])
+@require_auth
+def create_support_ticket():
+    data = request.json or {}
+
+    issue_key   = data.get("issue_key")
+    issue_label = data.get("issue_label")
+    bot_reply   = data.get("bot_reply")
+
+    if not issue_key or not issue_label:
+        return jsonify({"error": "Missing issue details"}), 400
+
+    # logged-in user
+    user = users.find_one({"_id": ObjectId(request.user["id"])})
+
+    ticket = {
+        "user_id": str(user["_id"]),
+        "user_name": user.get("full_name"),
+        "phone": user.get("phone_no"),
+        "issue_key": issue_key,
+        "issue_label": issue_label,
+        "bot_reply": bot_reply,
+        "status": "open",
+        "created_at": datetime.now().strftime("%d %b %Y, %I:%M %p")
+    }
+
+    result = support_tickets.insert_one(ticket)
+
+    return jsonify({
+        "message": "Support ticket created",
+        "ticket_id": str(result.inserted_id)
+    }), 201
+
+
+
+# ==========================================
+# GET ALL SUPPORT TICKETS
+# ==========================================
+@admin_bp.route("/admin/support-tickets", methods=["GET"])
+@require_auth
+def get_support_tickets():
+    tickets = []
+
+    for ticket in support_tickets.find().sort("_id", -1):
+        tickets.append({
+            "id": str(ticket["_id"]),
+            "user_name": ticket.get("user_name"),
+            "phone": ticket.get("phone"),
+            "issue_key": ticket.get("issue_key"),
+            "issue_label": ticket.get("issue_label"),
+            "bot_reply": ticket.get("bot_reply"),
+            "status": ticket.get("status", "open"),
+            "created_at": ticket.get("created_at")
+        })
+
+    return jsonify(tickets), 200
+
+
+# ==========================================
+# UPDATE SUPPORT TICKET STATUS
+# ==========================================
+@admin_bp.route("/admin/support-tickets/<ticket_id>", methods=["PATCH"])
+@require_auth
+def update_support_ticket(ticket_id):
+    data = request.json or {}
+
+    status = data.get("status")
+
+    if status not in ["open", "resolved"]:
+        return jsonify({"error": "Invalid status"}), 400
+
+    support_tickets.update_one(
+        {"_id": ObjectId(ticket_id)},
+        {"$set": {"status": status}}
+    )
+
+    return jsonify({
+        "message": "Ticket updated successfully"
+    }), 200
