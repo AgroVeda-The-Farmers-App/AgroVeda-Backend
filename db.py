@@ -11,11 +11,13 @@ DB_NAME = os.getenv("DB_NAME", "agroveda")
 
 
 client = MongoClient(MONGO_URI)
+
 db = client[DB_NAME]
 
 
 # Collections
 users = db["users"]
+support_tickets = db["support_tickets"] 
 
 def get_db():
 
