@@ -9,3 +9,7 @@ PyJWT
 flask-mail
 pymongo==4.7.2
 dnspython
+requests 
+beautifulsoup4 
+pandas 
+lxml
