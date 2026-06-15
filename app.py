@@ -36,10 +36,21 @@ from routes.news import news_bp
 from admin.admin import admin_bp
 from routes.yield_predictor import yield_bp
 from routes.weather import weather_bp
+from routes.croprecommendation import cropn_bp as crop_recommendation_bp
 
 
 
 
+
+# app.register_blueprint(admin_bp, url_prefix="")
+
+# app.register_blueprint(auth_bp, url_prefix="/")
+# app.register_blueprint(profile_bp, url_prefix="/")
+# app.register_blueprint(forgot_bp, url_prefix="/")
+# app.register_blueprint(crop_bp, url_prefix="")
+# app.register_blueprint(news_bp,    url_prefix="")
+# app.register_blueprint(yield_bp, url_prefix="")
+# app.register_blueprint(weather_bp, url_prefix="")
 
 app.register_blueprint(admin_bp, url_prefix="")
 
@@ -47,9 +58,12 @@ app.register_blueprint(auth_bp, url_prefix="/")
 app.register_blueprint(profile_bp, url_prefix="/")
 app.register_blueprint(forgot_bp, url_prefix="/")
 app.register_blueprint(crop_bp, url_prefix="")
-app.register_blueprint(news_bp,    url_prefix="")
+app.register_blueprint(news_bp, url_prefix="")
 app.register_blueprint(yield_bp, url_prefix="")
 app.register_blueprint(weather_bp, url_prefix="")
+
+app.register_blueprint(crop_recommendation_bp, url_prefix="")
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
