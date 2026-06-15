@@ -37,7 +37,7 @@ from admin.admin import admin_bp
 from routes.yield_predictor import yield_bp
 from routes.weather import weather_bp
 from routes.croprecommendation import cropn_bp as crop_recommendation_bp
-
+from routes.market_price_predictor import market_bp
 
 
 
@@ -61,7 +61,7 @@ app.register_blueprint(crop_bp, url_prefix="")
 app.register_blueprint(news_bp, url_prefix="")
 app.register_blueprint(yield_bp, url_prefix="")
 app.register_blueprint(weather_bp, url_prefix="")
-
+app.register_blueprint(market_bp, url_prefix="")
 app.register_blueprint(crop_recommendation_bp, url_prefix="")
 
 
